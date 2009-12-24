@@ -1,0 +1,14 @@
+Package: sbsettings-vpn
+Priority: optional
+Section: SBSettings Addons
+Architecture: iphoneos-arm
+Version: 0.9
+Description: Toggle VPN from SBSettings
+Depiction: http://booleanmagic.com/cydia/vpntoggle/
+Homepage: http://booleanmagic.com/cydia/vpntoggle/
+Name: SBSettings VPN Toggle
+Depends: sbsettings (>= 1.0.7-5)
+Conflicts: togglepack
+Replaces: togglepack
+Author: Ryan Petrich <rpetrich@gmail.com>
+dev: ryanpetrich
