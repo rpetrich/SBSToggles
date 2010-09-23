@@ -21,7 +21,7 @@ static WirelessModemController *controller;
 static PSSpecifier *specifier;
 static BOOL insideToggle;
 
-CHMethod0(void, UIAlertView, show)
+CHOptimizedMethod(0, self, void, UIAlertView, show)
 {
 	if (insideToggle) {
 		// Make sure we're suppressing the right alert view
@@ -33,7 +33,12 @@ CHMethod0(void, UIAlertView, show)
 			}
 		}
 	}
-	CHSuper0(UIAlertView, show);
+	CHSuper(0, UIAlertView, show);
+}
+
+CHOptimizedMethod(1, self, void, WirelessModemController, _btPowerChangedHandler, NSNotification *, notification)
+{
+	// Just eat it!
 }
 
 static void Prepare()
@@ -41,22 +46,17 @@ static void Prepare()
 	// Create root controller
 	PSRootController *rootController = [[PSRootController alloc] initWithTitle:@"Preferences" identifier:@"com.apple.Preferences"];
 	// Create controller
-	CHLoadLateClass(WirelessModemController);
 	controller = [CHAlloc(WirelessModemController) initForContentSize:CGSizeZero];
 	[controller setRootController:rootController];
 	[controller setParentController:rootController];
 	// Create Specifier
 	specifier = [[PSSpecifier preferenceSpecifierNamed:@"Tethering" target:controller set:@selector(setInternetTethering:specifier:) get:@selector(internetTethering:) detail:Nil cell:PSSwitchCell edit:Nil] retain];
-	// Hook UIAlertView
-	CHLoadClass(UIAlertView);
-	CHHook0(UIAlertView, show);
 }
 
-#define Prepare() do { if (!CHClass(UIAlertView)) Prepare(); } while(0)
+#define Prepare() do { if (!controller) Prepare(); } while(0)
 
 BOOL isCapable()
 {
-	CHLoadLateClass(WirelessModemBundleController);
 	WirelessModemBundleController *bundleController = [CHAlloc(WirelessModemBundleController) initWithParentListController:nil];
 	BOOL result = [[bundleController specifiersWithSpecifier:nil] count] != 0;
 	[bundleController release];
@@ -95,4 +95,10 @@ CHConstructor
 	CFBundleRef bundle = CFBundleCreate(kCFAllocatorDefault, url);
 	CFRelease(url);
 	CFBundleLoadExecutable(bundle);
+	// Hook!
+	CHLoadLateClass(WirelessModemBundleController);
+	CHLoadLateClass(WirelessModemController);
+	CHHook(1, WirelessModemController, _btPowerChangedHandler);
+	CHLoadClass(UIAlertView);
+	CHHook(0, UIAlertView, show);
 }
