@@ -2,12 +2,13 @@ Package: sbsettings-tether
 Priority: optional
 Section: SBSettings Addons
 Architecture: iphoneos-arm
-Version: 0.9
+Version: 1.1
 Description: Toggle tethering from SBSettings
-Depiction: http://booleanmagic.com/cydia/tethertoggle/
-Homepage: http://booleanmagic.com/cydia/tethertoggle/
+Depiction: http://rpetri.ch/cydia/tethertoggle/
+Homepage: http://rpetri.ch/cydia/tethertoggle/
 Name: SBSettings Tether Toggle
-Depends: sbsettings (>= 1.0.7-5)
+Depends: sbsettings (>= 1.0.7-5), firmware (>= 3.0)
+Pre-Depends: firmware (<< 4.2)
 Conflicts: togglepack
 Replaces: togglepack
 Author: Ryan Petrich <rpetrich@gmail.com>

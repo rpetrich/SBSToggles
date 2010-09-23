@@ -3,12 +3,19 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <UIKit/UIKit2.h>
 #import <Preferences/Preferences.h>
 #import <CaptainHook/CaptainHook.h>
 
 CHDeclareClass(WirelessModemController);
 CHDeclareClass(WirelessModemBundleController);
 CHDeclareClass(UIAlertView);
+
+@interface WirelessModemController : PSListController {
+}
+- (id)internetTethering:(PSSpecifier *)specifier;
+- (void)setInternetTethering:(id)value specifier:(PSSpecifier *)specifier;
+@end
 
 static WirelessModemController *controller;
 static PSSpecifier *specifier;
